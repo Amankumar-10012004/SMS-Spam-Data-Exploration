@@ -1,0 +1,127 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 820" width="1200" height="820" font-family="Arial,sans-serif">
+  <defs>
+    <marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#5bffa8"/></marker>
+    <marker id="arrB" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#4d8fff"/></marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="820" fill="#0d1117" rx="12"/>
+  <rect x="1" y="1" width="1198" height="818" fill="none" stroke="#30363d" stroke-width="1.5" rx="12"/>
+
+  <!-- Title -->
+  <text x="600" y="38" text-anchor="middle" font-size="22" font-weight="bold" fill="#e2e8f8">📩 SMS Spam Detection — High Level Design (HLD)</text>
+  <text x="600" y="58" text-anchor="middle" font-size="11" fill="#8b949e">Alok Chauhan (251810700318) · Aman Kumar (251810700231) · Batch 2C</text>
+  <line x1="60" y1="70" x2="1140" y2="70" stroke="#30363d" stroke-width="1"/>
+
+  <!-- ═══ LAYER 1: USER LAYER ═══ -->
+  <rect x="40" y="82" width="1120" height="80" fill="#0f2027" stroke="#5bffa8" stroke-width="1.5" rx="8"/>
+  <text x="70" y="100" font-size="10" font-weight="bold" fill="#5bffa8" letter-spacing="1">👤  USER LAYER</text>
+  <!-- User boxes -->
+  <rect x="160" y="92" width="200" height="58" fill="#0d2418" stroke="#5bffa8" stroke-width="1" rx="6"/>
+  <text x="260" y="116" text-anchor="middle" font-size="13" fill="#5bffa8">🎓 Academic Reviewer</text>
+  <text x="260" y="134" text-anchor="middle" font-size="10" fill="#7ee8c0">Views dashboard locally</text>
+  <rect x="490" y="92" width="200" height="58" fill="#0d2418" stroke="#5bffa8" stroke-width="1" rx="6"/>
+  <text x="590" y="116" text-anchor="middle" font-size="13" fill="#5bffa8">💻 Developer / Tester</text>
+  <text x="590" y="134" text-anchor="middle" font-size="10" fill="#7ee8c0">Runs training scripts</text>
+  <rect x="820" y="92" width="200" height="58" fill="#0d2418" stroke="#5bffa8" stroke-width="1" rx="6"/>
+  <text x="920" y="116" text-anchor="middle" font-size="13" fill="#5bffa8">🔍 End User</text>
+  <text x="920" y="134" text-anchor="middle" font-size="10" fill="#7ee8c0">Checks messages via browser</text>
+
+  <!-- Arrows 1→2 -->
+  <line x1="260" y1="162" x2="260" y2="195" stroke="#5bffa8" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="590" y1="162" x2="590" y2="195" stroke="#5bffa8" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="920" y1="162" x2="920" y2="195" stroke="#5bffa8" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- ═══ LAYER 2: DEPLOYMENT LAYER ═══ -->
+  <rect x="40" y="197" width="1120" height="90" fill="#0f1827" stroke="#4d8fff" stroke-width="1.5" rx="8"/>
+  <text x="70" y="215" font-size="10" font-weight="bold" fill="#4d8fff" letter-spacing="1">☁️  DEPLOYMENT LAYER</text>
+  <rect x="120" y="222" width="300" height="56" fill="#0a1a2e" stroke="#4d8fff" stroke-width="1" rx="6"/>
+  <text x="270" y="246" text-anchor="middle" font-size="13" fill="#4d8fff">🖥️ Streamlit Dashboard</text>
+  <text x="270" y="264" text-anchor="middle" font-size="10" fill="#7eb8ff">localhost:8501 · run_dashboard.bat</text>
+  <rect x="470" y="222" width="300" height="56" fill="#0a1a2e" stroke="#4d8fff" stroke-width="1" rx="6"/>
+  <text x="620" y="246" text-anchor="middle" font-size="13" fill="#4d8fff">▲ Netlify (Static Hosting)</text>
+  <text x="620" y="264" text-anchor="middle" font-size="10" fill="#7eb8ff">index.html · netlify.toml</text>
+  <rect x="820" y="222" width="300" height="56" fill="#0a1a2e" stroke="#4d8fff" stroke-width="1" rx="6"/>
+  <text x="970" y="246" text-anchor="middle" font-size="13" fill="#4d8fff">⚡ Netlify Function</text>
+  <text x="970" y="264" text-anchor="middle" font-size="10" fill="#7eb8ff">predict.js · /.netlify/functions/predict</text>
+
+  <!-- Arrows 2→3 -->
+  <line x1="270" y1="287" x2="270" y2="318" stroke="#4d8fff" stroke-width="1.5" marker-end="url(#arrB)"/>
+  <line x1="620" y1="287" x2="620" y2="318" stroke="#4d8fff" stroke-width="1.5" marker-end="url(#arrB)"/>
+  <line x1="970" y1="287" x2="970" y2="318" stroke="#4d8fff" stroke-width="1.5" marker-end="url(#arrB)"/>
+
+  <!-- ═══ LAYER 3: APPLICATION LAYER ═══ -->
+  <rect x="40" y="320" width="1120" height="90" fill="#1a1027" stroke="#c084fc" stroke-width="1.5" rx="8"/>
+  <text x="70" y="338" font-size="10" font-weight="bold" fill="#c084fc" letter-spacing="1">🖥️  APPLICATION LAYER</text>
+  <rect x="80" y="345" width="490" height="55" fill="#120d1e" stroke="#c084fc" stroke-width="1" rx="6"/>
+  <text x="325" y="368" text-anchor="middle" font-size="13" fill="#c084fc">📊 05_dashboard.py (Streamlit)</text>
+  <text x="325" y="386" text-anchor="middle" font-size="10" fill="#d8b4fe">Overview · EDA · Words · Segments · ML Results · Check Message</text>
+  <rect x="620" y="345" width="490" height="55" fill="#120d1e" stroke="#c084fc" stroke-width="1" rx="6"/>
+  <text x="865" y="368" text-anchor="middle" font-size="13" fill="#c084fc">🌐 index.html (SpamShield)</text>
+  <text x="865" y="386" text-anchor="middle" font-size="10" fill="#d8b4fe">Demo Mode · API Mode · History · Signal Chips</text>
+
+  <!-- Arrows 3→4 -->
+  <line x1="325" y1="400" x2="325" y2="428" stroke="#c084fc" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="865" y1="400" x2="865" y2="428" stroke="#c084fc" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- ═══ LAYER 4: ML / ARTIFACT LAYER ═══ -->
+  <rect x="40" y="430" width="1120" height="90" fill="#1a1508" stroke="#f59e0b" stroke-width="1.5" rx="8"/>
+  <text x="70" y="448" font-size="10" font-weight="bold" fill="#f59e0b" letter-spacing="1">🤖  ML &amp; ARTIFACT LAYER</text>
+  <rect x="80" y="454" width="230" height="56" fill="#120f02" stroke="#f59e0b" stroke-width="1" rx="6"/>
+  <text x="195" y="477" text-anchor="middle" font-size="12" fill="#f59e0b">🧠 spam_model.pkl</text>
+  <text x="195" y="495" text-anchor="middle" font-size="10" fill="#fcd34d">Linear SVM · F1=95.86%</text>
+  <rect x="330" y="454" width="230" height="56" fill="#120f02" stroke="#f59e0b" stroke-width="1" rx="6"/>
+  <text x="445" y="477" text-anchor="middle" font-size="12" fill="#f59e0b">📊 ml_results.json</text>
+  <text x="445" y="495" text-anchor="middle" font-size="10" fill="#fcd34d">4 models · ROC · CV-F1</text>
+  <rect x="580" y="454" width="230" height="56" fill="#120f02" stroke="#f59e0b" stroke-width="1" rx="6"/>
+  <text x="695" y="477" text-anchor="middle" font-size="12" fill="#f59e0b">🐍 train_model.py</text>
+  <text x="695" y="495" text-anchor="middle" font-size="10" fill="#fcd34d">TF-IDF · 4 Classifiers · joblib</text>
+  <rect x="830" y="454" width="290" height="56" fill="#120f02" stroke="#f59e0b" stroke-width="1" rx="6"/>
+  <text x="975" y="477" text-anchor="middle" font-size="12" fill="#f59e0b">🖼️ outputs/previews/*.png</text>
+  <text x="975" y="495" text-anchor="middle" font-size="10" fill="#fcd34d">save_charts.py → 8 charts</text>
+
+  <!-- Arrows 4→5 -->
+  <line x1="600" y1="520" x2="600" y2="548" stroke="#f59e0b" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- ═══ LAYER 5: PROCESSING LAYER ═══ -->
+  <rect x="40" y="550" width="1120" height="90" fill="#080f1a" stroke="#38bdf8" stroke-width="1.5" rx="8"/>
+  <text x="70" y="568" font-size="10" font-weight="bold" fill="#38bdf8" letter-spacing="1">⚙️  PROCESSING LAYER  (Jupyter Notebooks)</text>
+  <rect x="80" y="574" width="220" height="56" fill="#020c18" stroke="#38bdf8" stroke-width="1" rx="6"/>
+  <text x="190" y="597" text-anchor="middle" font-size="12" fill="#38bdf8">📓 01_data_cleaning</text>
+  <text x="190" y="615" text-anchor="middle" font-size="10" fill="#7dd3fc">Clean · Features · Export CSV</text>
+  <rect x="320" y="574" width="220" height="56" fill="#020c18" stroke="#38bdf8" stroke-width="1" rx="6"/>
+  <text x="430" y="597" text-anchor="middle" font-size="12" fill="#38bdf8">📓 02_eda_distribution</text>
+  <text x="430" y="615" text-anchor="middle" font-size="10" fill="#7dd3fc">Pie · Histogram · Feature bars</text>
+  <rect x="560" y="574" width="220" height="56" fill="#020c18" stroke="#38bdf8" stroke-width="1" rx="6"/>
+  <text x="670" y="597" text-anchor="middle" font-size="12" fill="#38bdf8">📓 03_text_statistics</text>
+  <text x="670" y="615" text-anchor="middle" font-size="10" fill="#7dd3fc">Word freq · N-gram · Ratio</text>
+  <rect x="800" y="574" width="320" height="56" fill="#020c18" stroke="#38bdf8" stroke-width="1" rx="6"/>
+  <text x="960" y="597" text-anchor="middle" font-size="12" fill="#38bdf8">📓 04_segmentation</text>
+  <text x="960" y="615" text-anchor="middle" font-size="10" fill="#7dd3fc">Length groups · Signal score rules</text>
+
+  <!-- Arrows 5→6 -->
+  <line x1="600" y1="640" x2="600" y2="668" stroke="#38bdf8" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- ═══ LAYER 6: DATA LAYER ═══ -->
+  <rect x="40" y="670" width="1120" height="90" fill="#111820" stroke="#64748b" stroke-width="1.5" rx="8"/>
+  <text x="70" y="688" font-size="10" font-weight="bold" fill="#94a3b8" letter-spacing="1">📦  DATA LAYER</text>
+  <rect x="120" y="694" width="280" height="56" fill="#080d14" stroke="#64748b" stroke-width="1" rx="6"/>
+  <text x="260" y="717" text-anchor="middle" font-size="13" fill="#94a3b8">🗄️ spam.csv</text>
+  <text x="260" y="735" text-anchor="middle" font-size="10" fill="#64748b">UCI Dataset · 5,572 messages · Raw</text>
+  <rect x="460" y="694" width="280" height="56" fill="#080d14" stroke="#64748b" stroke-width="1" rx="6"/>
+  <text x="600" y="717" text-anchor="middle" font-size="13" fill="#94a3b8">🗄️ spam_cleaned.csv</text>
+  <text x="600" y="735" text-anchor="middle" font-size="10" fill="#64748b">5,169 rows · 12 columns · Processed</text>
+  <rect x="800" y="694" width="280" height="56" fill="#080d14" stroke="#64748b" stroke-width="1" rx="6"/>
+  <text x="940" y="717" text-anchor="middle" font-size="13" fill="#94a3b8">🗄️ outputs/</text>
+  <text x="940" y="735" text-anchor="middle" font-size="10" fill="#64748b">pkl · json · png artifacts</text>
+
+  <!-- Legend -->
+  <rect x="40" y="775" width="1120" height="36" fill="#0d1117" stroke="#30363d" stroke-width="1" rx="6"/>
+  <rect x="60" y="786" width="14" height="14" fill="#5bffa8" rx="2"/>  <text x="80" y="797" font-size="10" fill="#94a3b8">User</text>
+  <rect x="130" y="786" width="14" height="14" fill="#4d8fff" rx="2"/> <text x="150" y="797" font-size="10" fill="#94a3b8">Deployment</text>
+  <rect x="240" y="786" width="14" height="14" fill="#c084fc" rx="2"/> <text x="260" y="797" font-size="10" fill="#94a3b8">Application</text>
+  <rect x="350" y="786" width="14" height="14" fill="#f59e0b" rx="2"/> <text x="370" y="797" font-size="10" fill="#94a3b8">ML / Artifacts</text>
+  <rect x="470" y="786" width="14" height="14" fill="#38bdf8" rx="2"/> <text x="490" y="797" font-size="10" fill="#94a3b8">Processing</text>
+  <rect x="570" y="786" width="14" height="14" fill="#64748b" rx="2"/> <text x="590" y="797" font-size="10" fill="#94a3b8">Data</text>
+  <text x="1140" y="797" text-anchor="end" font-size="10" fill="#30363d">SMS Spam Data Exploration — 2026</text>
+</svg>
