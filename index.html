@@ -504,7 +504,8 @@ footer strong{color:var(--text)}
 <script>
 const DEFAULT_API_ENDPOINT = '/.netlify/functions/predict';
 let API_ENDPOINT = DEFAULT_API_ENDPOINT;
-let USE_DEMO = false;
+// Start in demo mode until we confirm the API is reachable
+let USE_DEMO = true;
 let STREAMLIT_DASHBOARD_URL = '';
 
 const EXAMPLES = [
@@ -516,7 +517,8 @@ const EXAMPLES = [
 
 const SPAM_SIGNALS = [
   { label:'URL detected',         test: m => /https?:\/\/|www\./i.test(m) },
-  { label:'Phone number',         test: m => /\b\d{10,}\b/.test(m) },
+  // Strip spaces/dashes before checking so "0800 123 4567" is caught
+  { label:'Phone number',         test: m => /\d{10,}/.test(m.replace(/[\s\-().+]/g, '')) },
   { label:'"FREE" keyword',       test: m => /\bfree\b/i.test(m) },
   { label:'Win/Prize word',       test: m => /\b(win|won|prize|cash|reward)\b/i.test(m) },
   { label:'"CALL" keyword',       test: m => /\bcall\b/i.test(m) },
@@ -554,7 +556,10 @@ function onInput() {
   const len = ta.value.length;
   cc.textContent = `${len} / 500`;
   cc.className   = 'char-counter' + (len > 400 ? ' warn' : '');
-  btn.disabled   = len < 4;
+  // Don't re-enable button while a request is loading
+  if (!btn.classList.contains('loading')) {
+    btn.disabled = len < 4;
+  }
 }
 
 function setExample(i) {
@@ -573,7 +578,9 @@ function clearAll() {
 function copyText() {
   const text = document.getElementById('sms-input').value;
   if (!text) return;
-  navigator.clipboard.writeText(text).then(() => showToast('✓ Copied to clipboard'));
+  navigator.clipboard.writeText(text)
+    .then(() => showToast('✓ Copied to clipboard'))
+    .catch(() => showToast('Copy failed — please select and copy manually'));
 }
 
 function shareResult() {
@@ -581,8 +588,13 @@ function shareResult() {
   const label = lastResult.is_spam ? 'SPAM' : 'Legitimate';
   const conf  = Math.round(lastResult.confidence * 100);
   const text  = `SpamShield: ${label} (${conf}% confidence)`;
-  if (navigator.share) { navigator.share({ title:'SpamShield', text }); }
-  else { navigator.clipboard.writeText(text).then(() => showToast('Result copied!')); }
+  if (navigator.share) {
+    navigator.share({ title:'SpamShield', text }).catch(() => {});
+  } else {
+    navigator.clipboard.writeText(text)
+      .then(() => showToast('Result copied!'))
+      .catch(() => showToast('Copy failed'));
+  }
 }
 
 async function analyse() {
@@ -616,7 +628,9 @@ async function demoPredict(msg) {
   await sleep(700 + Math.random() * 500);
   const hits  = SPAM_SIGNALS.filter(s => s.test(msg));
   const score = hits.length;
-  const hasPhone = SPAM_SIGNALS[1].test(msg);
+  // Find the phone signal by label, not by hardcoded index — safer if array order changes
+  const phoneSignal = SPAM_SIGNALS.find(s => s.label === 'Phone number');
+  const hasPhone = phoneSignal ? phoneSignal.test(msg) : false;
   let sp;
   if      (hasPhone)    sp = .93 + Math.random() * .06;
   else if (score >= 3)  sp = .84 + Math.random() * .13;
@@ -663,8 +677,15 @@ function showResult(result, message) {
   const ringNum  = document.getElementById('ring-num');
   ringNum.textContent = pctVal + '%';
   ringNum.style.color = isSpam ? 'var(--danger)' : 'var(--accent)';
-  ringFill.style.strokeDashoffset = 176;
-  setTimeout(() => { ringFill.style.strokeDasharray='176'; ringFill.style.strokeDashoffset = 176 * (1 - result.confidence); }, 80);
+  // Reset offset synchronously, then animate after two frames so browser
+  // actually registers the change before the transition kicks in.
+  ringFill.style.transition = 'none';
+  ringFill.style.strokeDasharray  = '176';
+  ringFill.style.strokeDashoffset = '176';
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    ringFill.style.transition = '';
+    ringFill.style.strokeDashoffset = String(176 * (1 - result.confidence));
+  }));
 
   const grid = document.getElementById('signals-grid');
   grid.innerHTML = '';
@@ -781,6 +802,23 @@ document.addEventListener('DOMContentLoaded', () => {
     let cur = '';
     sections.forEach(id => { const el=document.getElementById(id); if(el&&window.scrollY>=el.offsetTop-100) cur=id; });
     document.querySelectorAll('.nav-btn').forEach(a => a.classList.toggle('active', a.getAttribute('href')==='#'+cur));
+  });
+
+  // Probe the Netlify function; switch to live mode only if it responds
+  fetch(DEFAULT_API_ENDPOINT, {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({message: 'ping'})
+  }).then(r => {
+    if (r.ok || r.status === 400) {   // 400 means the function IS running
+      USE_DEMO = false;
+      document.getElementById('api-dot').className = 'api-dot live';
+      document.getElementById('api-mode').textContent = '— Connected';
+    }
+  }).catch(() => {
+    // API unreachable — stay in demo mode (already set)
+    document.getElementById('api-dot').className = 'api-dot demo';
+    document.getElementById('api-mode').textContent = '— Demo mode';
   });
 });
 </script>
