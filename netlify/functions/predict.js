@@ -1,6 +1,6 @@
 const SPAM_PATTERNS = [
   { label: 'URL detected', test: message => /https?:\/\/|www\./i.test(message) },
-  { label: 'Phone number', test: message => /\b\d{10,}\b/.test(message.replace(/[\s\-()]/g, '')) },
+  { label: 'Phone number', test: message => /\d{10,}/.test(message.replace(/[\s\-().+]/g, '')) },
   { label: '"FREE" keyword', test: message => /\bfree\b/i.test(message) },
   { label: 'Win/Prize word', test: message => /\b(win|won|winner|prize|cash|reward|award)\b/i.test(message) },
   { label: '"CALL" keyword', test: message => /\bcall\b/i.test(message) },
@@ -48,10 +48,19 @@ exports.handler = async event => {
       body: JSON.stringify({ error: 'Message is required.' }),
     };
   }
+  // Sanity limit: avoid running expensive regex on huge payloads
+  if (message.length > 10000) {
+    return {
+      statusCode: 400,
+      headers,
+      body: JSON.stringify({ error: 'Message is too long (max 10,000 characters).' }),
+    };
+  }
 
   const foundSignals = SPAM_PATTERNS.filter(pattern => pattern.test(message));
   const score = foundSignals.length;
-  const hasPhone = SPAM_PATTERNS[1].test(message);
+  const phonePattern = SPAM_PATTERNS.find(p => p.label === 'Phone number');
+  const hasPhone = phonePattern ? phonePattern.test(message) : false;
 
   let spamProbability;
   if (hasPhone && score >= 2) spamProbability = 0.94;
