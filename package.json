@@ -1,6 +1,9 @@
 {
-  "dependencies": {
-    "matplotlib": "^1.0.0",
-    "requirements": "^3.0.0"
+  "name": "sms-spam-data-exploration",
+  "version": "1.0.0",
+  "description": "SMS Spam Detection — static frontend + Netlify function. Python deps are in requirements.txt.",
+  "private": true,
+  "scripts": {
+    "start": "npx serve ."
   }
 }
