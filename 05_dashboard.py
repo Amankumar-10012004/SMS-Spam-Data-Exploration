@@ -32,6 +32,8 @@ import re                          # for finding phone numbers with regex
 import json                        # for reading the ml_results.json file
 import warnings                    # to hide unnecessary warnings
 warnings.filterwarnings("ignore")  # keep the output clean
+import itertools                   # for efficient list flattening
+import matplotlib                  # for version detection (boxplot compat)
 
 import streamlit as st             # the main dashboard library
 import pandas as pd                # for working with data tables
@@ -86,10 +88,10 @@ def find_file(*possible_paths):
 def load_data():
     """Load the cleaned CSV file. Try a few possible locations."""
     csv_path = find_file(
-        "OJT-SEM-2-project/spam_cleaned.csv", 
-        "outputs/spam_cleaned.csv",   # when running from project root
-        "spam_cleaned.csv",           # when running from outputs folder
-        "../outputs/spam_cleaned.csv" # one level up
+        "spam_cleaned.csv",           # project root (most common)
+        "outputs/spam_cleaned.csv",   # outputs subfolder
+        "SMS-Spam-Data-Exploration/spam_cleaned.csv",  # parent-level clone
+        "../spam_cleaned.csv"         # one level up
     )
 
     if csv_path is None:
@@ -107,7 +109,7 @@ def load_data():
 def load_ml_results():
     """Load the machine learning results JSON file."""
     json_path = find_file(
-        "OJT-SEM-2-project/outputs/ml_results.json",
+        "SMS-Spam-Data-Exploration/outputs/ml_results.json",
         "outputs/ml_results.json",
         "ml_results.json",
         "../outputs/ml_results.json"
@@ -131,7 +133,7 @@ def load_ml_results():
 def load_model():
     """Try to load the saved spam classifier."""
     model_path = find_file(
-        "OJT-SEM-2-project/outputs/spam_model.pkl",
+        "SMS-Spam-Data-Exploration/outputs/spam_model.pkl",
         "outputs/spam_model.pkl",
         "spam_model.pkl",
         "../outputs/spam_model.pkl"
@@ -376,15 +378,26 @@ if page == "🏠  Overview":
 
     with col_right:
         st.subheader("🎯 Top 5 Insights")
+
+        # Safely compute URL ratio with column existence check
+        if "has_url" in data.columns:
+            ham_url_mean = ham["has_url"].mean()
+            url_ratio = f"{(spam['has_url'].mean() / max(ham_url_mean, 0.001)):.0f}x"
+        else:
+            url_ratio = "many times"
+
+        spam_avg_len = f"{spam['char_count'].mean():.0f}" if "char_count" in data.columns else "N/A"
+        ham_avg_len  = f"{ham['char_count'].mean():.0f}"  if "char_count" in data.columns else "N/A"
+
         st.markdown(f"""
         1. 🔴 **Phone numbers** are the strongest signal — spam messages contain
            them far more often than ham.
 
-        2. 🔗 **URLs** are {(spam["has_url"].mean()/max(ham["has_url"].mean(),0.001)):.0f}x
+        2. 🔗 **URLs** are {url_ratio}
            more common in spam than in ham.
 
-        3. 📏 **Message length** — spam messages average **{spam["char_count"].mean():.0f} chars**
-           vs only **{ham["char_count"].mean():.0f} chars** for ham.
+        3. 📏 **Message length** — spam messages average **{spam_avg_len} chars**
+           vs only **{ham_avg_len} chars** for ham.
 
         4. 📊 Messages between **101–160 chars** have the highest spam rate (~40%)
            because spammers try to fit everything in one SMS (160 char limit).
@@ -526,11 +539,18 @@ elif page == "📊  EDA Charts":
         plt.close()
 
         fig, ax = plt.subplots(figsize=(9, 5.2))
-        bp = ax.boxplot(
-            [spam["char_count"], ham["char_count"]],
-            tick_labels=["Spam", "Ham"],
+        mpl_version = tuple(int(x) for x in matplotlib.__version__.split(".")[:2])
+        boxplot_kwargs = dict(
             patch_artist=True, notch=True, widths=0.5, showfliers=False,
             medianprops={"color": "black", "linewidth": 2.5}
+        )
+        if mpl_version >= (3, 9):
+            boxplot_kwargs["tick_labels"] = ["Spam", "Ham"]
+        else:
+            boxplot_kwargs["labels"] = ["Spam", "Ham"]
+        bp = ax.boxplot(
+            [spam["char_count"], ham["char_count"]],
+            **boxplot_kwargs
         )
         bp["boxes"][0].set_facecolor(SPAM_COLOR); bp["boxes"][0].set_alpha(0.75)
         bp["boxes"][1].set_facecolor(HAM_COLOR);  bp["boxes"][1].set_alpha(0.75)
@@ -637,8 +657,9 @@ elif page == "🔤  Word Analysis":
 
     # Count words in spam and ham (this takes a few seconds)
     with st.spinner("Counting words... please wait."):
-        spam_words = sum([clean_words(m) for m in spam["message"]], [])
-        ham_words  = sum([clean_words(m) for m in ham["message"]],  [])
+        # Use itertools.chain for O(n) flattening instead of O(n²) sum()
+        spam_words = list(itertools.chain.from_iterable(clean_words(m) for m in spam["message"]))
+        ham_words  = list(itertools.chain.from_iterable(clean_words(m) for m in ham["message"]))
         spam_count = Counter(spam_words)
         ham_count  = Counter(ham_words)
 
@@ -891,8 +912,11 @@ elif page == "🤖  ML Model Results":
 
     # ── Dataset Split Info ────────────────────────────────────────────────────
     col1, col2, col3 = st.columns(3)
-    col1.metric("Training Set", f"{meta.get('train_size', '?'):,} messages")
-    col2.metric("Test Set",     f"{meta.get('test_size',  '?'):,} messages")
+    # Guard: train_size/test_size may be '?' string if _meta is missing
+    train_sz = meta.get('train_size', None)
+    test_sz  = meta.get('test_size',  None)
+    col1.metric("Training Set", f"{train_sz:,} messages" if isinstance(train_sz, int) else "? messages")
+    col2.metric("Test Set",     f"{test_sz:,} messages"  if isinstance(test_sz,  int) else "? messages")
     col3.metric("Best Model",   meta.get("best_model", "?"))
 
     st.markdown("---")
@@ -1004,8 +1028,10 @@ elif page == "🤖  ML Model Results":
         with col:
             st.markdown(f"**{name}**")
             fig, ax = plt.subplots(figsize=(3.5, 3))
+            # vmax must be > 0; guard against all-wrong predictions
+            cm_max = max(cm[0][0], cm[1][1], 1)
             im = ax.imshow(cm, cmap="RdYlGn", aspect="auto",
-                           vmin=0, vmax=max(cm[0][0], cm[1][1]))
+                           vmin=0, vmax=cm_max)
             ax.set_xticks([0, 1]); ax.set_xticklabels(["Pred Ham", "Pred Spam"])
             ax.set_yticks([0, 1]); ax.set_yticklabels(["Actual Ham", "Actual Spam"])
             for i in range(2):
@@ -1073,9 +1099,11 @@ elif page == "🔍  Check a Message":
 
             # Show how we decided
             if method == "ml":
+                # score is a float probability (0-1) when using ML model
                 st.info(f"🤖 Decision made by **ML model** (spam probability: {score*100:.1f}%)")
             else:
-                st.info(f"📏 Decision made by **rule-based system** ({score} signals detected)")
+                # score is an int (count of signals) when using rules
+                st.info(f"📏 Decision made by **rule-based system** ({int(score)} signal(s) detected)")
 
             st.markdown("---")
 
