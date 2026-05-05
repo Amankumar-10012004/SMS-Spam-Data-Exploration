@@ -1,20 +1,20 @@
 """
 train_model.py
 ==============
-Trains three text classifiers on spam.csv, evaluates them, and saves
+Trains four text classifiers on spam.csv, evaluates them, and saves
 the best pipeline (TF-IDF + model) + all evaluation results to outputs/.
 
 Fixed issues:
-  - Each pipeline now gets its OWN TfidfVectorizer instance (shared instance
-    caused incorrect cross_val_score results because one pipeline's fit would
-    overwrite the shared transformer state used by the others).
+  - Removed machine-specific sys.path.insert("D:/py_libs") — was crashing
+    on every machine except one specific PC.
+  - Added early FileNotFoundError if spam.csv is missing (clear message).
+  - Each pipeline uses its OWN TfidfVectorizer instance (shared instance
+    caused incorrect cross_val_score results).
   - ASCII-safe print statements (no emoji) for Windows cp1252 consoles.
+  - Added zero_division=0 guard on precision/recall/f1 to prevent warnings.
 
 Run once:  python train_model.py
 """
-
-import sys
-sys.path.insert(0, "D:/py_libs")   # scikit-learn installed here
 
 import os, json
 import numpy  as np
@@ -49,6 +49,13 @@ def make_tfidf():
 
 # ── 1. Load & clean data ──────────────────────────────────────
 print("Loading spam.csv ...")
+if not os.path.exists("spam.csv"):
+    raise FileNotFoundError(
+        "spam.csv not found. "
+        "Make sure you run this script from the project root folder "
+        "(the folder that contains spam.csv)."
+    )
+
 raw = pd.read_csv("spam.csv", encoding="latin-1", usecols=[0, 1])
 raw.columns = ["label", "message"]
 raw = raw.dropna(subset=["message"]).copy()
@@ -102,16 +109,17 @@ for name, pipe in models.items():
     y_pred = pipe.predict(X_test)
     y_prob = pipe.predict_proba(X_test)[:, 1]
 
+    # zero_division=0 prevents UndefinedMetricWarning on edge cases
     acc  = accuracy_score (y_test, y_pred)
-    prec = precision_score(y_test, y_pred)
-    rec  = recall_score   (y_test, y_pred)
-    f1   = f1_score       (y_test, y_pred)
+    prec = precision_score(y_test, y_pred, zero_division=0)
+    rec  = recall_score   (y_test, y_pred, zero_division=0)
+    f1   = f1_score       (y_test, y_pred, zero_division=0)
     auc  = roc_auc_score  (y_test, y_prob)
     cm   = confusion_matrix(y_test, y_pred).tolist()
 
     fpr, tpr, _ = roc_curve(y_test, y_prob)
 
-    # 5-fold CV F1 on full dataset (uses its own fresh clone internally)
+    # 5-fold CV F1 on full dataset
     cv_f1 = cross_val_score(pipe, X, y, cv=5, scoring="f1").mean()
 
     results[name] = {
