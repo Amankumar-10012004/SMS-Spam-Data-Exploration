@@ -1,0 +1,232 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 860" width="1200" height="860" font-family="Arial,sans-serif">
+  <defs>
+    <marker id="ga" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#5bffa8"/></marker>
+    <marker id="gb" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#4d8fff"/></marker>
+    <marker id="gc" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#f59e0b"/></marker>
+    <marker id="gd" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#c084fc"/></marker>
+    <marker id="ge" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#f87171"/></marker>
+  </defs>
+  <rect width="1200" height="860" fill="#0d1117" rx="12"/>
+  <rect x="1" y="1" width="1198" height="858" fill="none" stroke="#30363d" stroke-width="1.5" rx="12"/>
+
+  <!-- Title -->
+  <text x="600" y="36" text-anchor="middle" font-size="21" font-weight="bold" fill="#e2e8f8">🔁 SMS Spam Detection — Data Flow Diagram (DFD)</text>
+  <text x="600" y="56" text-anchor="middle" font-size="11" fill="#8b949e">Level-0 Context + Level-1 Process Decomposition · Alok Chauhan · Aman Kumar · Batch 2C</text>
+  <line x1="50" y1="66" x2="1150" y2="66" stroke="#30363d" stroke-width="1"/>
+
+  <!-- ──────────────── LEVEL 0 CONTEXT DIAGRAM ──────────────── -->
+  <text x="600" y="84" text-anchor="middle" font-size="11" font-weight="bold" fill="#8b949e">LEVEL-0  ·  Context Diagram</text>
+
+  <!-- External Entities (ovals) -->
+  <!-- UCI Dataset -->
+  <ellipse cx="120" cy="152" rx="90" ry="36" fill="#080d14" stroke="#64748b" stroke-width="2"/>
+  <text x="120" y="148" text-anchor="middle" font-size="11" font-weight="bold" fill="#94a3b8">🌐 UCI</text>
+  <text x="120" y="164" text-anchor="middle" font-size="10" fill="#64748b">Repository</text>
+
+  <!-- End User -->
+  <ellipse cx="120" cy="290" rx="90" ry="36" fill="#0d2418" stroke="#5bffa8" stroke-width="2"/>
+  <text x="120" y="286" text-anchor="middle" font-size="11" font-weight="bold" fill="#5bffa8">👤 End User</text>
+  <text x="120" y="302" text-anchor="middle" font-size="10" fill="#7ee8c0">Browser</text>
+
+  <!-- Developer -->
+  <ellipse cx="1070" cy="152" rx="90" ry="36" fill="#0a1a2e" stroke="#4d8fff" stroke-width="2"/>
+  <text x="1070" y="148" text-anchor="middle" font-size="11" font-weight="bold" fill="#4d8fff">🎓 Reviewer</text>
+  <text x="1070" y="164" text-anchor="middle" font-size="10" fill="#7eb8ff">Developer</text>
+
+  <!-- Central System Process -->
+  <rect x="440" y="110" width="320" height="120" fill="#0f1827" stroke="#4d8fff" stroke-width="2" rx="12"/>
+  <text x="600" y="140" text-anchor="middle" font-size="16" font-weight="bold" fill="#e2e8f8">⚙️ SMS Spam</text>
+  <text x="600" y="160" text-anchor="middle" font-size="16" font-weight="bold" fill="#e2e8f8">Detection System</text>
+  <text x="600" y="182" text-anchor="middle" font-size="10" fill="#8b949e">train_model.py · 05_dashboard.py</text>
+  <text x="600" y="198" text-anchor="middle" font-size="10" fill="#8b949e">index.html · predict.js</text>
+  <text x="600" y="214" text-anchor="middle" font-size="10" fill="#8b949e">Notebooks 01–04 · save_charts.py</text>
+
+  <!-- L0 Arrows -->
+  <line x1="210" y1="152" x2="438" y2="152" stroke="#64748b" stroke-width="2" marker-end="url(#ga)"/>
+  <text x="324" y="144" text-anchor="middle" font-size="10" fill="#64748b">spam.csv</text>
+
+  <line x1="210" y1="272" x2="438" y2="200" stroke="#5bffa8" stroke-width="2" marker-end="url(#ga)"/>
+  <text x="314" y="248" text-anchor="middle" font-size="10" fill="#5bffa8">SMS text</text>
+
+  <line x1="760" y1="152" x2="980" y2="152" stroke="#4d8fff" stroke-width="2" marker-end="url(#gb)"/>
+  <text x="870" y="144" text-anchor="middle" font-size="10" fill="#4d8fff">EDA charts · ML metrics</text>
+
+  <line x1="760" y1="200" x2="980" y2="272" stroke="#5bffa8" stroke-width="2" marker-end="url(#ga)"/>
+  <text x="880" y="248" text-anchor="middle" font-size="10" fill="#5bffa8">spam/ham verdict</text>
+
+  <line x1="290" y1="290" x2="438" y2="220" stroke="#5bffa8" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <line x1="760" y1="200" x2="210" y2="290" stroke="#5bffa8" stroke-width="2" marker-end="url(#ga)"/>
+  <text x="600" y="270" text-anchor="middle" font-size="10" fill="#5bffa8">confidence + signal chips</text>
+
+  <!-- Divider -->
+  <line x1="50" y1="320" x2="1150" y2="320" stroke="#21262d" stroke-width="1.5" stroke-dasharray="8,4"/>
+  <text x="600" y="338" text-anchor="middle" font-size="11" font-weight="bold" fill="#8b949e">LEVEL-1  ·  Process Decomposition</text>
+
+  <!-- ──────────────── LEVEL 1 ──────────────── -->
+  <!-- Data Stores -->
+  <!-- DS1 spam.csv -->
+  <rect x="40" y="360" width="150" height="44" fill="#080d14" stroke="#64748b" stroke-width="1.5" rx="0"/>
+  <line x1="40" y1="360" x2="40" y2="404" stroke="#64748b" stroke-width="3"/>
+  <line x1="190" y1="360" x2="190" y2="404" stroke="#64748b" stroke-width="3"/>
+  <text x="115" y="378" text-anchor="middle" font-size="11" font-weight="bold" fill="#94a3b8">DS1: spam.csv</text>
+  <text x="115" y="396" text-anchor="middle" font-size="9" fill="#64748b">5,572 raw messages</text>
+
+  <!-- DS2 spam_cleaned.csv -->
+  <rect x="40" y="490" width="160" height="44" fill="#080d14" stroke="#38bdf8" stroke-width="1.5" rx="0"/>
+  <line x1="40" y1="490" x2="40" y2="534" stroke="#38bdf8" stroke-width="3"/>
+  <line x1="200" y1="490" x2="200" y2="534" stroke="#38bdf8" stroke-width="3"/>
+  <text x="120" y="508" text-anchor="middle" font-size="11" font-weight="bold" fill="#38bdf8">DS2: cleaned.csv</text>
+  <text x="120" y="526" text-anchor="middle" font-size="9" fill="#7dd3fc">5,169 rows · 12 cols</text>
+
+  <!-- DS3 spam_model.pkl -->
+  <rect x="40" y="620" width="160" height="44" fill="#080d14" stroke="#f59e0b" stroke-width="1.5" rx="0"/>
+  <line x1="40" y1="620" x2="40" y2="664" stroke="#f59e0b" stroke-width="3"/>
+  <line x1="200" y1="620" x2="200" y2="664" stroke="#f59e0b" stroke-width="3"/>
+  <text x="120" y="638" text-anchor="middle" font-size="11" font-weight="bold" fill="#f59e0b">DS3: model.pkl</text>
+  <text x="120" y="656" text-anchor="middle" font-size="9" fill="#fcd34d">LinearSVM pipeline</text>
+
+  <!-- DS4 ml_results.json -->
+  <rect x="40" y="720" width="160" height="44" fill="#080d14" stroke="#f59e0b" stroke-width="1.5" rx="0"/>
+  <line x1="40" y1="720" x2="40" y2="764" stroke="#f59e0b" stroke-width="3"/>
+  <line x1="200" y1="720" x2="200" y2="764" stroke="#f59e0b" stroke-width="3"/>
+  <text x="120" y="738" text-anchor="middle" font-size="11" font-weight="bold" fill="#f59e0b">DS4: results.json</text>
+  <text x="120" y="756" text-anchor="middle" font-size="9" fill="#fcd34d">4 models · ROC curves</text>
+
+  <!-- DS5 localStorage -->
+  <rect x="990" y="720" width="170" height="44" fill="#080d14" stroke="#c084fc" stroke-width="1.5" rx="0"/>
+  <line x1="990" y1="720" x2="990" y2="764" stroke="#c084fc" stroke-width="3"/>
+  <line x1="1160" y1="720" x2="1160" y2="764" stroke="#c084fc" stroke-width="3"/>
+  <text x="1075" y="738" text-anchor="middle" font-size="11" font-weight="bold" fill="#c084fc">DS5: localStorage</text>
+  <text x="1075" y="756" text-anchor="middle" font-size="9" fill="#d8b4fe">30-item history</text>
+
+  <!-- Process P1: Data Cleaning -->
+  <rect x="250" y="352" width="190" height="60" fill="#020c18" stroke="#38bdf8" stroke-width="1.5" rx="8"/>
+  <text x="345" y="376" text-anchor="middle" font-size="11" font-weight="bold" fill="#38bdf8">P1: Data Cleaning</text>
+  <text x="345" y="394" text-anchor="middle" font-size="10" fill="#7dd3fc">01_data_cleaning.ipynb</text>
+
+  <!-- Process P2: ML Training -->
+  <rect x="250" y="480" width="190" height="60" fill="#120f02" stroke="#f59e0b" stroke-width="1.5" rx="8"/>
+  <text x="345" y="504" text-anchor="middle" font-size="11" font-weight="bold" fill="#f59e0b">P2: ML Training</text>
+  <text x="345" y="522" text-anchor="middle" font-size="10" fill="#fcd34d">train_model.py</text>
+
+  <!-- Process P3: EDA -->
+  <rect x="500" y="352" width="190" height="60" fill="#020c18" stroke="#38bdf8" stroke-width="1.5" rx="8"/>
+  <text x="595" y="376" text-anchor="middle" font-size="11" font-weight="bold" fill="#38bdf8">P3: EDA &amp; Analysis</text>
+  <text x="595" y="394" text-anchor="middle" font-size="10" fill="#7dd3fc">Notebooks 02 · 03 · 04</text>
+
+  <!-- Process P4: Dashboard -->
+  <rect x="500" y="490" width="190" height="60" fill="#120d1e" stroke="#c084fc" stroke-width="1.5" rx="8"/>
+  <text x="595" y="514" text-anchor="middle" font-size="11" font-weight="bold" fill="#c084fc">P4: Dashboard</text>
+  <text x="595" y="532" text-anchor="middle" font-size="10" fill="#d8b4fe">05_dashboard.py</text>
+
+  <!-- Process P5: Web Frontend -->
+  <rect x="760" y="490" width="190" height="60" fill="#0a1a2e" stroke="#4d8fff" stroke-width="1.5" rx="8"/>
+  <text x="855" y="514" text-anchor="middle" font-size="11" font-weight="bold" fill="#4d8fff">P5: Web Frontend</text>
+  <text x="855" y="532" text-anchor="middle" font-size="10" fill="#7eb8ff">index.html</text>
+
+  <!-- Process P6: Netlify Function -->
+  <rect x="760" y="352" width="190" height="60" fill="#0a1a2e" stroke="#4d8fff" stroke-width="1.5" rx="8"/>
+  <text x="855" y="376" text-anchor="middle" font-size="11" font-weight="bold" fill="#4d8fff">P6: Predict API</text>
+  <text x="855" y="394" text-anchor="middle" font-size="10" fill="#7eb8ff">predict.js · Netlify Fn</text>
+
+  <!-- Process P7: Signal Check (dashboard check page) -->
+  <rect x="500" y="620" width="190" height="60" fill="#120d1e" stroke="#c084fc" stroke-width="1.5" rx="8"/>
+  <text x="595" y="644" text-anchor="middle" font-size="11" font-weight="bold" fill="#c084fc">P7: Spam Verdict</text>
+  <text x="595" y="662" text-anchor="middle" font-size="10" fill="#d8b4fe">check_signals + spam_verdict</text>
+
+  <!-- ─── L1 DATA FLOWS ─── -->
+  <!-- DS1 → P1 -->
+  <line x1="190" y1="382" x2="248" y2="382" stroke="#64748b" stroke-width="1.5" marker-end="url(#ga)"/>
+  <text x="220" y="375" text-anchor="middle" font-size="9" fill="#64748b">raw CSV</text>
+
+  <!-- P1 → DS2 -->
+  <line x1="345" y1="412" x2="345" y2="450" stroke="#38bdf8" stroke-width="1.5"/>
+  <line x1="345" y1="450" x2="160" y2="490" stroke="#38bdf8" stroke-width="1.5" marker-end="url(#ga)"/>
+  <text x="230" y="466" text-anchor="middle" font-size="9" fill="#38bdf8">cleaned CSV</text>
+
+  <!-- DS2 → P2 -->
+  <line x1="200" y1="512" x2="248" y2="512" stroke="#38bdf8" stroke-width="1.5" marker-end="url(#gc)"/>
+  <text x="226" y="504" text-anchor="middle" font-size="9" fill="#38bdf8">X, y arrays</text>
+
+  <!-- P2 → DS3 -->
+  <line x1="345" y1="540" x2="345" y2="580" stroke="#f59e0b" stroke-width="1.5"/>
+  <line x1="345" y1="580" x2="160" y2="620" stroke="#f59e0b" stroke-width="1.5" marker-end="url(#gc)"/>
+  <text x="236" y="600" text-anchor="middle" font-size="9" fill="#f59e0b">model.pkl</text>
+
+  <!-- P2 → DS4 -->
+  <line x1="345" y1="580" x2="160" y2="720" stroke="#f59e0b" stroke-width="1.5" marker-end="url(#gc)"/>
+  <text x="220" y="660" text-anchor="middle" font-size="9" fill="#f59e0b">results JSON</text>
+
+  <!-- DS2 → P3 -->
+  <line x1="200" y1="490" x2="498" y2="382" stroke="#38bdf8" stroke-width="1.5" marker-end="url(#ga)"/>
+  <text x="380" y="430" text-anchor="middle" font-size="9" fill="#38bdf8">DataFrame</text>
+
+  <!-- DS2 → P4 -->
+  <line x1="200" y1="512" x2="498" y2="512" stroke="#38bdf8" stroke-width="1.5" marker-end="url(#gd)"/>
+  <text x="350" y="504" text-anchor="middle" font-size="9" fill="#38bdf8">DataFrame</text>
+
+  <!-- DS3 → P4 (model into dashboard) -->
+  <line x1="200" y1="638" x2="498" y2="538" stroke="#f59e0b" stroke-width="1.5" marker-end="url(#gd)"/>
+  <text x="324" y="574" text-anchor="middle" font-size="9" fill="#f59e0b">model obj</text>
+
+  <!-- DS4 → P4 -->
+  <line x1="200" y1="738" x2="498" y2="546" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#gd)"/>
+  <text x="330" y="650" text-anchor="middle" font-size="9" fill="#f59e0b">JSON dict</text>
+
+  <!-- P4 → P7 -->
+  <line x1="595" y1="550" x2="595" y2="618" stroke="#c084fc" stroke-width="1.5" marker-end="url(#gd)"/>
+  <text x="615" y="590" text-anchor="middle" font-size="9" fill="#c084fc">user message</text>
+
+  <!-- DS3 → P7 -->
+  <line x1="200" y1="642" x2="498" y2="660" stroke="#f59e0b" stroke-width="1.5" marker-end="url(#gd)"/>
+  <text x="344" y="640" text-anchor="middle" font-size="9" fill="#f59e0b">predict_proba</text>
+
+  <!-- P7 → P4 (verdict back) -->
+  <line x1="690" y1="650" x2="730" y2="650" stroke="#c084fc" stroke-width="1.5"/>
+  <line x1="730" y1="650" x2="730" y2="600" stroke="#c084fc" stroke-width="1.5"/>
+  <line x1="730" y1="600" x2="692" y2="540" stroke="#c084fc" stroke-width="1.5" marker-end="url(#gd)"/>
+  <text x="748" y="630" text-anchor="middle" font-size="9" fill="#c084fc">verdict</text>
+
+  <!-- P5 → P6 -->
+  <line x1="855" y1="490" x2="855" y2="414" stroke="#4d8fff" stroke-width="1.5" marker-end="url(#gb)"/>
+  <text x="876" y="456" text-anchor="middle" font-size="9" fill="#4d8fff">POST msg</text>
+
+  <!-- P6 → P5 -->
+  <line x1="830" y1="414" x2="830" y2="490" stroke="#5bffa8" stroke-width="1.5" marker-end="url(#ga)"/>
+  <text x="808" y="456" text-anchor="middle" font-size="9" fill="#5bffa8">JSON result</text>
+
+  <!-- P5 → DS5 -->
+  <line x1="950" y1="540" x2="1000" y2="720" stroke="#c084fc" stroke-width="1.5" marker-end="url(#gd)"/>
+  <text x="1000" y="640" text-anchor="middle" font-size="9" fill="#c084fc">save history</text>
+
+  <!-- DS5 → P5 -->
+  <line x1="1060" y1="720" x2="1000" y2="560" stroke="#c084fc" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#gd)"/>
+  <text x="1070" y="660" text-anchor="middle" font-size="9" fill="#c084fc">load history</text>
+
+  <!-- External → P5 (user types) -->
+  <ellipse cx="1075" cy="490" rx="70" ry="30" fill="#0d2418" stroke="#5bffa8" stroke-width="1.5"/>
+  <text x="1075" y="487" text-anchor="middle" font-size="11" font-weight="bold" fill="#5bffa8">👤 User</text>
+  <text x="1075" y="503" text-anchor="middle" font-size="9" fill="#7ee8c0">End User</text>
+  <line x1="1005" y1="490" x2="952" y2="490" stroke="#5bffa8" stroke-width="1.5" marker-end="url(#ga)"/>
+  <text x="980" y="482" text-anchor="middle" font-size="9" fill="#5bffa8">SMS text</text>
+
+  <!-- Reviewer → P4 -->
+  <ellipse cx="1075" cy="380" rx="70" ry="30" fill="#0a1a2e" stroke="#4d8fff" stroke-width="1.5"/>
+  <text x="1075" y="377" text-anchor="middle" font-size="11" font-weight="bold" fill="#4d8fff">🎓 Dev</text>
+  <text x="1075" y="393" text-anchor="middle" font-size="9" fill="#7eb8ff">Reviewer</text>
+  <line x1="1005" y1="380" x2="692" y2="380" stroke="#4d8fff" stroke-width="1.5"/>
+  <line x1="692" y1="380" x2="692" y2="410" stroke="#4d8fff" stroke-width="1.5" marker-end="url(#gd)"/>
+  <text x="850" y="372" text-anchor="middle" font-size="9" fill="#4d8fff">opens dashboard</text>
+
+  <!-- Footer -->
+  <rect x="40" y="808" width="1120" height="36" fill="#080d14" stroke="#21262d" stroke-width="1" rx="6"/>
+  <text x="80" y="824" font-size="10" font-weight="bold" fill="#94a3b8">Notation:</text>
+  <rect x="140" y="814" width="12" height="18" fill="#080d14" stroke="#64748b" stroke-width="2" rx="0"/>  <line x1="140" y1="814" x2="140" y2="832" stroke="#64748b" stroke-width="3"/> <line x1="152" y1="814" x2="152" y2="832" stroke="#64748b" stroke-width="3"/>
+  <text x="172" y="827" font-size="10" fill="#64748b">Data Store</text>
+  <ellipse cx="230" cy="823" rx="28" ry="12" fill="none" stroke="#5bffa8" stroke-width="1.5"/>
+  <text x="265" y="827" font-size="10" fill="#5bffa8">External Entity</text>
+  <rect x="318" y="813" width="50" height="20" fill="none" stroke="#4d8fff" stroke-width="1.5" rx="6"/>
+  <text x="374" y="827" font-size="10" fill="#4d8fff">Process</text>
+  <text x="450" y="827" font-size="10" fill="#8b949e">→ Data Flow (labeled with data name)</text>
+  <text x="1150" y="827" text-anchor="end" font-size="10" fill="#30363d">DFD 2026</text>
+</svg>

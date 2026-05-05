@@ -1,0 +1,239 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 820" width="1200" height="820" font-family="Arial,sans-serif">
+  <rect width="1200" height="820" fill="#0d1117" rx="12"/>
+  <rect x="1" y="1" width="1198" height="818" fill="none" stroke="#30363d" stroke-width="1.5" rx="12"/>
+
+  <!-- Title -->
+  <text x="600" y="36" text-anchor="middle" font-size="21" font-weight="bold" fill="#e2e8f8">📈 SMS Spam Detection — Cumulative Flow Diagram (CFD)</text>
+  <text x="600" y="56" text-anchor="middle" font-size="11" fill="#8b949e">75 Working Days · Feb 2 – Apr 29, 2026 · Alok Chauhan (251810700318) · Aman Kumar (251810700231) · Batch 2C</text>
+  <line x1="50" y1="66" x2="1150" y2="66" stroke="#30363d" stroke-width="1"/>
+
+  <!-- ─── STACKED AREA CHART ─── -->
+  <!-- Chart area: x=80..1140, y=90..600 → height=510, width=1060 -->
+  <!-- Y axis: 0 tasks at y=600, 75 tasks at y=90, so each task = 6.8px -->
+  <!-- X axis: 11 points (W0-W10), spacing = 1060/10 = 106px -->
+
+  <!-- Week X positions: 80, 186, 292, 398, 504, 610, 716, 822, 928, 1034, 1140 -->
+
+  <!-- DONE band (cumulative done): bottom of stacked chart, grows from bottom -->
+  <!-- Done values per week: 0,3,8,16,24,33,42,51,58,64,70,75 (week 0 = start) -->
+  <!-- Scale: y = 600 - value*6.8 -->
+  <!-- W0=600, W1=579.6, W2=545.6, W3=491.2, W4=436.8, W5=375.6, W6=314.4, W7=252.8, W8=205.6, W9=164.8, W10=124, W11=90 -->
+
+  <!-- REVIEW band: sits on top of Done. Review values: 0,1,2,3,3,3,4,3,2,2,1,0 -->
+  <!-- Review top = Done top - review*6.8 -->
+
+  <!-- IN PROGRESS band: sits on top of Review. Values: 0,3,3,3,4,4,4,3,3,2,2,0 -->
+
+  <!-- BACKLOG band: fills up to 75 total always -->
+
+  <!-- Fill colors (from bottom to top): Done=#5bffa8, Review=#f59e0b, InProgress=#4d8fff, Backlog=#374151 -->
+
+  <!-- DONE: polygon from bottom baseline up -->
+  <polygon fill="#5bffa8" fill-opacity="0.75"
+    points="
+      80,600
+      186,580 292,546 398,491 504,437 610,376 716,314 822,253 928,206 1034,165 1140,90
+      1140,600
+    "/>
+
+  <!-- REVIEW top line (done + review) -->
+  <!-- R per week: 0,1,2,3,3,3,4,3,2,2,1,0 → *6.8 -->
+  <!-- review top y = done_y - review*6.8 -->
+  <!-- W1: 580-6.8=573.2, W2:546-13.6=532.4, W3:491-20.4=470.6, W4:437-20.4=416.6, W5:376-20.4=355.6, W6:314-27.2=286.8, W7:253-20.4=232.6, W8:206-13.6=192.4, W9:165-13.6=151.4, W10:90-6.8=83.2 -->
+  <polygon fill="#f59e0b" fill-opacity="0.70"
+    points="
+      80,600
+      186,573 292,532 398,471 504,417 610,356 716,287 822,233 928,192 1034,151 1140,83
+      1140,90
+      1034,165 928,206 822,253 716,314 610,376 504,437 398,491 292,546 186,580
+      80,600
+    "/>
+
+  <!-- IN PROGRESS top line (done + review + inprog) -->
+  <!-- IP per week: 0,3,3,3,4,4,4,3,3,2,2,0 → *6.8 -->
+  <!-- W1:573-20.4=552.6, W2:532-20.4=511.6, W3:471-20.4=450.6, W4:417-27.2=389.8, W5:356-27.2=328.8, W6:287-27.2=259.8, W7:233-20.4=212.6, W8:192-20.4=171.6, W9:151-13.6=137.4, W10:83-13.6=69.4 -->
+  <polygon fill="#4d8fff" fill-opacity="0.65"
+    points="
+      80,600
+      186,553 292,512 398,451 504,390 610,329 716,260 822,213 928,172 1034,137 1140,69
+      1140,83
+      1034,151 928,192 822,233 716,287 610,356 504,417 398,471 292,532 186,573
+      80,600
+    "/>
+
+  <!-- BACKLOG: fills to fixed total of 75 (y=90) -->
+  <polygon fill="#374151" fill-opacity="0.60"
+    points="
+      80,90
+      186,553 292,512 398,451 504,390 610,329 716,260 822,213 928,172 1034,137 1140,69
+      1140,90
+      80,90
+    "/>
+
+  <!-- Chart border -->
+  <rect x="80" y="90" width="1060" height="510" fill="none" stroke="#30363d" stroke-width="1.5"/>
+
+  <!-- Y-axis gridlines + labels -->
+  <!-- 0, 15, 30, 45, 60, 75 tasks -->
+  <line x1="80" y1="600" x2="1140" y2="600" stroke="#21262d" stroke-width="1" stroke-dasharray="4,4"/>
+  <line x1="80" y1="498" x2="1140" y2="498" stroke="#21262d" stroke-width="1" stroke-dasharray="4,4"/>
+  <line x1="80" y1="396" x2="1140" y2="396" stroke="#21262d" stroke-width="1" stroke-dasharray="4,4"/>
+  <line x1="80" y1="294" x2="1140" y2="294" stroke="#21262d" stroke-width="1" stroke-dasharray="4,4"/>
+  <line x1="80" y1="192" x2="1140" y2="192" stroke="#21262d" stroke-width="1" stroke-dasharray="4,4"/>
+  <line x1="80" y1="90"  x2="1140" y2="90"  stroke="#21262d" stroke-width="1" stroke-dasharray="4,4"/>
+
+  <text x="70" y="604" text-anchor="end" font-size="11" fill="#8b949e">0</text>
+  <text x="70" y="502" text-anchor="end" font-size="11" fill="#8b949e">15</text>
+  <text x="70" y="400" text-anchor="end" font-size="11" fill="#8b949e">30</text>
+  <text x="70" y="298" text-anchor="end" font-size="11" fill="#8b949e">45</text>
+  <text x="70" y="196" text-anchor="end" font-size="11" fill="#8b949e">60</text>
+  <text x="70" y="94"  text-anchor="end" font-size="11" fill="#8b949e">75</text>
+  <text x="28" y="350" text-anchor="middle" font-size="11" fill="#8b949e" transform="rotate(-90,28,350)">Cumulative Tasks</text>
+
+  <!-- X-axis labels (week marks) -->
+  <!-- W0=80, W1=186, W2=292, W3=398, W4=504, W5=610, W6=716, W7=822, W8=928, W9=1034, W10=1140 -->
+  <line x1="80"  y1="600" x2="80"  y2="608" stroke="#8b949e" stroke-width="1"/>
+  <line x1="186" y1="600" x2="186" y2="608" stroke="#8b949e" stroke-width="1"/>
+  <line x1="292" y1="600" x2="292" y2="608" stroke="#8b949e" stroke-width="1"/>
+  <line x1="398" y1="600" x2="398" y2="608" stroke="#8b949e" stroke-width="1"/>
+  <line x1="504" y1="600" x2="504" y2="608" stroke="#8b949e" stroke-width="1"/>
+  <line x1="610" y1="600" x2="610" y2="608" stroke="#8b949e" stroke-width="1"/>
+  <line x1="716" y1="600" x2="716" y2="608" stroke="#8b949e" stroke-width="1"/>
+  <line x1="822" y1="600" x2="822" y2="608" stroke="#8b949e" stroke-width="1"/>
+  <line x1="928" y1="600" x2="928" y2="608" stroke="#8b949e" stroke-width="1"/>
+  <line x1="1034" y1="600" x2="1034" y2="608" stroke="#8b949e" stroke-width="1"/>
+  <line x1="1140" y1="600" x2="1140" y2="608" stroke="#8b949e" stroke-width="1"/>
+
+  <text x="80"   y="622" text-anchor="middle" font-size="10" fill="#8b949e">Start</text>
+  <text x="186"  y="622" text-anchor="middle" font-size="10" fill="#8b949e">Wk 1</text>
+  <text x="292"  y="622" text-anchor="middle" font-size="10" fill="#8b949e">Wk 2</text>
+  <text x="398"  y="622" text-anchor="middle" font-size="10" fill="#8b949e">Wk 3</text>
+  <text x="504"  y="622" text-anchor="middle" font-size="10" fill="#8b949e">Wk 4</text>
+  <text x="610"  y="622" text-anchor="middle" font-size="10" fill="#8b949e">Wk 5</text>
+  <text x="716"  y="622" text-anchor="middle" font-size="10" fill="#8b949e">Wk 6</text>
+  <text x="822"  y="622" text-anchor="middle" font-size="10" fill="#8b949e">Wk 7</text>
+  <text x="928"  y="622" text-anchor="middle" font-size="10" fill="#8b949e">Wk 8</text>
+  <text x="1034" y="622" text-anchor="middle" font-size="10" fill="#8b949e">Wk 9</text>
+  <text x="1140" y="622" text-anchor="middle" font-size="10" fill="#8b949e">Wk 10-11</text>
+
+  <!-- Month labels -->
+  <text x="186"  y="636" text-anchor="middle" font-size="9" fill="#4d8fff">Feb</text>
+  <text x="504"  y="636" text-anchor="middle" font-size="9" fill="#4d8fff">Mar</text>
+  <text x="822"  y="636" text-anchor="middle" font-size="9" fill="#4d8fff">Apr</text>
+
+  <!-- ─── PHASE DIVIDERS ─── -->
+  <!-- Phase 1 ends W1 (186), Phase 2 W3 (398), Phase 3 W5 (610), Phase 4 W7 (716), Phase 5 W9 (928), Phase 6 W11 (1140) -->
+  <line x1="186" y1="90" x2="186" y2="600" stroke="#5bffa8" stroke-width="1" stroke-dasharray="6,4" opacity="0.5"/>
+  <line x1="398" y1="90" x2="398" y2="600" stroke="#38bdf8" stroke-width="1" stroke-dasharray="6,4" opacity="0.5"/>
+  <line x1="610" y1="90" x2="610" y2="600" stroke="#c084fc" stroke-width="1" stroke-dasharray="6,4" opacity="0.5"/>
+  <line x1="716" y1="90" x2="716" y2="600" stroke="#f59e0b" stroke-width="1" stroke-dasharray="6,4" opacity="0.5"/>
+  <line x1="928" y1="90" x2="928" y2="600" stroke="#f87171" stroke-width="1" stroke-dasharray="6,4" opacity="0.5"/>
+
+  <!-- Phase labels inside chart -->
+  <text x="133"  y="108" text-anchor="middle" font-size="9" fill="#5bffa8">Phase 1</text>
+  <text x="133"  y="120" text-anchor="middle" font-size="9" fill="#5bffa8">Setup</text>
+  <text x="292"  y="108" text-anchor="middle" font-size="9" fill="#38bdf8">Phase 2</text>
+  <text x="292"  y="120" text-anchor="middle" font-size="9" fill="#38bdf8">EDA</text>
+  <text x="504"  y="108" text-anchor="middle" font-size="9" fill="#c084fc">Phase 3</text>
+  <text x="504"  y="120" text-anchor="middle" font-size="9" fill="#c084fc">Features</text>
+  <text x="663"  y="108" text-anchor="middle" font-size="9" fill="#f59e0b">Ph 4</text>
+  <text x="663"  y="120" text-anchor="middle" font-size="9" fill="#f59e0b">ML</text>
+  <text x="822"  y="108" text-anchor="middle" font-size="9" fill="#f87171">Phase 5</text>
+  <text x="822"  y="120" text-anchor="middle" font-size="9" fill="#f87171">Dashboard</text>
+  <text x="1034" y="108" text-anchor="middle" font-size="9" fill="#94a3b8">Phase 6</text>
+  <text x="1034" y="120" text-anchor="middle" font-size="9" fill="#94a3b8">Deploy</text>
+
+  <!-- Done line (top of Done band) -->
+  <polyline fill="none" stroke="#5bffa8" stroke-width="2.5" stroke-linecap="round"
+    points="80,600 186,580 292,546 398,491 504,437 610,376 716,314 822,253 928,206 1034,165 1140,90"/>
+
+  <!-- Data point dots on Done line -->
+  <circle cx="80"   cy="600" r="4" fill="#5bffa8"/>
+  <circle cx="186"  cy="580" r="4" fill="#5bffa8"/>
+  <circle cx="292"  cy="546" r="4" fill="#5bffa8"/>
+  <circle cx="398"  cy="491" r="4" fill="#5bffa8"/>
+  <circle cx="504"  cy="437" r="4" fill="#5bffa8"/>
+  <circle cx="610"  cy="376" r="4" fill="#5bffa8"/>
+  <circle cx="716"  cy="314" r="4" fill="#5bffa8"/>
+  <circle cx="822"  cy="253" r="4" fill="#5bffa8"/>
+  <circle cx="928"  cy="206" r="4" fill="#5bffa8"/>
+  <circle cx="1034" cy="165" r="4" fill="#5bffa8"/>
+  <circle cx="1140" cy="90"  r="4" fill="#5bffa8"/>
+
+  <!-- Done count labels on dots -->
+  <text x="80"   y="575" text-anchor="middle" font-size="9" fill="#5bffa8">0</text>
+  <text x="186"  y="572" text-anchor="middle" font-size="9" fill="#5bffa8">3</text>
+  <text x="292"  y="538" text-anchor="middle" font-size="9" fill="#5bffa8">8</text>
+  <text x="398"  y="483" text-anchor="middle" font-size="9" fill="#5bffa8">16</text>
+  <text x="504"  y="429" text-anchor="middle" font-size="9" fill="#5bffa8">24</text>
+  <text x="610"  y="368" text-anchor="middle" font-size="9" fill="#5bffa8">33</text>
+  <text x="716"  y="306" text-anchor="middle" font-size="9" fill="#5bffa8">42</text>
+  <text x="822"  y="245" text-anchor="middle" font-size="9" fill="#5bffa8">51</text>
+  <text x="928"  y="198" text-anchor="middle" font-size="9" fill="#5bffa8">58</text>
+  <text x="1034" y="157" text-anchor="middle" font-size="9" fill="#5bffa8">64</text>
+  <text x="1140" y="82"  text-anchor="middle" font-size="9" fill="#5bffa8">75 ✓</text>
+
+  <!-- ─── LEGEND ─── -->
+  <rect x="80" y="650" width="1060" height="50" fill="#080d14" stroke="#21262d" stroke-width="1" rx="8"/>
+  <rect x="100" y="665" width="22" height="18" fill="#5bffa8" fill-opacity="0.75" rx="3"/>
+  <text x="130" y="678" font-size="11" fill="#5bffa8">✅ Done</text>
+  <rect x="220" y="665" width="22" height="18" fill="#f59e0b" fill-opacity="0.70" rx="3"/>
+  <text x="250" y="678" font-size="11" fill="#f59e0b">🔍 Review / Testing</text>
+  <rect x="420" y="665" width="22" height="18" fill="#4d8fff" fill-opacity="0.65" rx="3"/>
+  <text x="450" y="678" font-size="11" fill="#4d8fff">🔧 In Progress</text>
+  <rect x="590" y="665" width="22" height="18" fill="#374151" fill-opacity="0.60" rx="3"/>
+  <text x="620" y="678" font-size="11" fill="#94a3b8">📋 Backlog</text>
+  <line x1="730" y1="674" x2="768" y2="674" stroke="#5bffa8" stroke-width="2.5"/>
+  <circle cx="750" cy="674" r="3" fill="#5bffa8"/>
+  <text x="776" y="678" font-size="11" fill="#5bffa8">Done trend line</text>
+
+  <!-- ─── PHASE TABLE ─── -->
+  <rect x="80" y="710" width="1060" height="90" fill="#080d14" stroke="#21262d" stroke-width="1" rx="8"/>
+  <text x="600" y="728" text-anchor="middle" font-size="11" font-weight="bold" fill="#8b949e">Phase Summary</text>
+
+  <!-- Table headers -->
+  <text x="120" y="746" text-anchor="middle" font-size="10" font-weight="bold" fill="#64748b">Phase</text>
+  <text x="300" y="746" text-anchor="middle" font-size="10" font-weight="bold" fill="#64748b">Focus</text>
+  <text x="480" y="746" text-anchor="middle" font-size="10" font-weight="bold" fill="#64748b">Days</text>
+  <text x="580" y="746" text-anchor="middle" font-size="10" font-weight="bold" fill="#64748b">Tasks</text>
+  <text x="720" y="746" text-anchor="middle" font-size="10" font-weight="bold" fill="#64748b">Key Deliverables</text>
+  <line x1="90" y1="750" x2="1130" y2="750" stroke="#21262d" stroke-width="1"/>
+
+  <!-- Phase rows -->
+  <text x="120" y="763" text-anchor="middle" font-size="9" fill="#5bffa8">1</text>
+  <text x="300" y="763" text-anchor="middle" font-size="9" fill="#8b949e">Data Acquisition &amp; Setup</text>
+  <text x="480" y="763" text-anchor="middle" font-size="9" fill="#8b949e">1–8</text>
+  <text x="580" y="763" text-anchor="middle" font-size="9" fill="#8b949e">8</text>
+  <text x="720" y="763" text-anchor="middle" font-size="9" fill="#8b949e">Repo · requirements.txt · spam.csv acquired</text>
+
+  <text x="120" y="775" text-anchor="middle" font-size="9" fill="#38bdf8">2</text>
+  <text x="300" y="775" text-anchor="middle" font-size="9" fill="#8b949e">Data Cleaning &amp; EDA</text>
+  <text x="480" y="775" text-anchor="middle" font-size="9" fill="#8b949e">9–26</text>
+  <text x="580" y="775" text-anchor="middle" font-size="9" fill="#8b949e">18</text>
+  <text x="720" y="775" text-anchor="middle" font-size="9" fill="#8b949e">spam_cleaned.csv · 9 features · EDA notebooks</text>
+
+  <text x="120" y="787" text-anchor="middle" font-size="9" fill="#c084fc">3</text>
+  <text x="300" y="787" text-anchor="middle" font-size="9" fill="#8b949e">Feature Eng. &amp; Text Analysis</text>
+  <text x="480" y="787" text-anchor="middle" font-size="9" fill="#8b949e">27–38</text>
+  <text x="580" y="787" text-anchor="middle" font-size="9" fill="#8b949e">12</text>
+  <text x="720" y="787" text-anchor="middle" font-size="9" fill="#8b949e">Word freq · N-grams · Segmentation rules</text>
+
+  <text x="120" y="763" text-anchor="middle" font-size="9" fill="#5bffa8">1</text>
+
+  <!-- Right columns -->
+  <text x="870" y="763" text-anchor="middle" font-size="9" fill="#f59e0b">4</text>
+  <text x="960" y="763" text-anchor="middle" font-size="9" fill="#8b949e">ML Training</text>
+  <text x="1050" y="763" text-anchor="middle" font-size="9" fill="#8b949e">39–53 · 15 tasks · 4 classifiers · LinearSVM best</text>
+
+  <text x="870" y="775" text-anchor="middle" font-size="9" fill="#f87171">5</text>
+  <text x="960" y="775" text-anchor="middle" font-size="9" fill="#8b949e">Dashboard Dev.</text>
+  <text x="1050" y="775" text-anchor="middle" font-size="9" fill="#8b949e">54–67 · 14 tasks · 6-page Streamlit app</text>
+
+  <text x="870" y="787" text-anchor="middle" font-size="9" fill="#94a3b8">6</text>
+  <text x="960" y="787" text-anchor="middle" font-size="9" fill="#8b949e">Frontend &amp; Deploy</text>
+  <text x="1050" y="787" text-anchor="middle" font-size="9" fill="#8b949e">68–75 · 8 tasks · Netlify · docs · push GitHub</text>
+
+  <line x1="840" y1="750" x2="840" y2="800" stroke="#21262d" stroke-width="1"/>
+
+  <text x="600" y="810" text-anchor="middle" font-size="10" fill="#30363d">SMS Spam Data Exploration · Cumulative Flow Diagram · 75 Working Days · Feb–Apr 2026</text>
+</svg>
