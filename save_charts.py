@@ -1,4 +1,6 @@
 """Renders and saves every dashboard chart as a PNG for preview."""
+import os
+import itertools
 import pandas as pd
 import numpy as np
 import matplotlib
@@ -6,7 +8,6 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 from collections import Counter
-import os
 
 os.makedirs("outputs/previews", exist_ok=True)
 
@@ -32,7 +33,14 @@ plt.rcParams.update({
     "figure.dpi"        : 120,
 })
 
-data = pd.read_csv("outputs/spam_cleaned.csv")
+# Try project root first, then outputs/ subfolder
+candidates = ["spam_cleaned.csv", "outputs/spam_cleaned.csv"]
+csv_file = next((p for p in candidates if os.path.exists(p)), None)
+if csv_file is None:
+    raise FileNotFoundError(
+        "spam_cleaned.csv not found. Run 01_data_cleaning.ipynb first."
+    )
+data = pd.read_csv(csv_file)
 spam = data[data["label"] == "spam"]
 ham  = data[data["label"] == "ham"]
 
@@ -71,14 +79,19 @@ plt.close()
 print("[saved] 02_length_histogram.png")
 
 # ── 3. WORD COUNT BOXPLOT ─────────────────────────────────────
-fig, ax = plt.subplots(figsize=(7, 4.5))
-bp = ax.boxplot(
-    [spam["word_count"], ham["word_count"]],
-    tick_labels=["Spam", "Ham"],
+# Matplotlib tick_labels= was added in v3.9; use labels= on older versions
+_mpl_ver = tuple(int(x) for x in matplotlib.__version__.split(".")[:2])
+_bp_kwargs = dict(
     patch_artist=True, notch=True, widths=0.45,
     medianprops={"color": "black", "linewidth": 2.5},
     flierprops={"marker": "o", "markersize": 4, "alpha": 0.4}
 )
+if _mpl_ver >= (3, 9):
+    _bp_kwargs["tick_labels"] = ["Spam", "Ham"]
+else:
+    _bp_kwargs["labels"] = ["Spam", "Ham"]
+fig, ax = plt.subplots(figsize=(7, 4.5))
+bp = ax.boxplot([spam["word_count"], ham["word_count"]], **_bp_kwargs)
 bp["boxes"][0].set_facecolor(SPAM_COLOR); bp["boxes"][0].set_alpha(0.75)
 bp["boxes"][1].set_facecolor(HAM_COLOR);  bp["boxes"][1].set_alpha(0.75)
 ax.set_title("Word Count: Spam vs Ham (Box Plot)")
@@ -93,35 +106,44 @@ print("[saved] 03_wordcount_boxplot.png")
 # ── 4. FEATURE GROUPED BAR CHART ─────────────────────────────
 names  = ["Has URL", "Has Number", "Has Prize Word",
           "Has 'FREE'", "Has 'CALL'", "Has 'TXT/TEXT'"]
-scols  = ["has_url","has_number","has_currency","has_free","has_call","has_txt"]
-srates = [spam[c].mean()*100 for c in scols]
-hrates = [ham[c].mean()*100  for c in scols]
-x = np.arange(len(names)); width = 0.38
+all_cols  = ["has_url","has_number","has_currency","has_free","has_call","has_txt"]
+# Only use columns that actually exist in the CSV
+valid = [(n, c) for n, c in zip(names, all_cols) if c in data.columns]
+if not valid:
+    print("[skip] 04_feature_bars.png — no feature columns found in CSV")
+else:
+    names_v  = [n for n, c in valid]
+    scols_v  = [c for n, c in valid]
+    srates = [spam[c].mean()*100 for c in scols_v]
+    hrates = [ham[c].mean()*100  for c in scols_v]
+    x = np.arange(len(names_v)); width = 0.38
 
-fig, ax = plt.subplots(figsize=(12, 5))
-bars_s = ax.bar(x - width/2, srates, width, label="Spam",
-                color=SPAM_COLOR, alpha=0.85, zorder=3)
-bars_h = ax.bar(x + width/2, hrates, width, label="Ham",
-                color=HAM_COLOR,  alpha=0.85, zorder=3)
-for bar in bars_s:
-    h = bar.get_height()
-    if h > 0.5:
-        ax.text(bar.get_x()+bar.get_width()/2, h+0.8, f"{h:.1f}%",
-                ha="center", va="bottom", fontsize=10, fontweight="bold", color=SPAM_COLOR)
-for bar in bars_h:
-    h = bar.get_height()
-    if h > 0.5:
-        ax.text(bar.get_x()+bar.get_width()/2, h+0.8, f"{h:.1f}%",
-                ha="center", va="bottom", fontsize=10, fontweight="bold", color="#27AE60")
-ax.set_title("How Often Does Each Feature Appear in Spam vs Ham Messages?")
-ax.set_xlabel("Feature"); ax.set_ylabel("% of Messages Containing Feature")
-ax.set_xticks(x); ax.set_xticklabels(names, rotation=15, ha="right")
-ax.set_ylim(0, max(srates)*1.2); ax.legend()
-ax.yaxis.grid(True, linestyle="--", alpha=0.4, zorder=0)
-fig.tight_layout()
-fig.savefig("outputs/previews/04_feature_bars.png", bbox_inches="tight")
-plt.close()
-print("[saved] 04_feature_bars.png")
+    fig, ax = plt.subplots(figsize=(12, 5))
+    bars_s = ax.bar(x - width/2, srates, width, label="Spam",
+                    color=SPAM_COLOR, alpha=0.85, zorder=3)
+    bars_h = ax.bar(x + width/2, hrates, width, label="Ham",
+                    color=HAM_COLOR,  alpha=0.85, zorder=3)
+    for bar in bars_s:
+        h = bar.get_height()
+        if h > 0.5:
+            ax.text(bar.get_x()+bar.get_width()/2, h+0.8, f"{h:.1f}%",
+                    ha="center", va="bottom", fontsize=10, fontweight="bold", color=SPAM_COLOR)
+    for bar in bars_h:
+        h = bar.get_height()
+        if h > 0.5:
+            ax.text(bar.get_x()+bar.get_width()/2, h+0.8, f"{h:.1f}%",
+                    ha="center", va="bottom", fontsize=10, fontweight="bold", color="#27AE60")
+    ax.set_title("How Often Does Each Feature Appear in Spam vs Ham Messages?")
+    ax.set_xlabel("Feature"); ax.set_ylabel("% of Messages Containing Feature")
+    ax.set_xticks(x); ax.set_xticklabels(names_v, rotation=15, ha="right")
+    # Guard: ylim top must be > 0
+    max_rate = max(max(srates, default=0), max(hrates, default=0), 1)
+    ax.set_ylim(0, max_rate * 1.2); ax.legend()
+    ax.yaxis.grid(True, linestyle="--", alpha=0.4, zorder=0)
+    fig.tight_layout()
+    fig.savefig("outputs/previews/04_feature_bars.png", bbox_inches="tight")
+    plt.close()
+    print("[saved] 04_feature_bars.png")
 
 # ── 5. WORD FREQUENCY BARS (spam) ─────────────────────────────
 STOPWORDS = [
@@ -140,8 +162,9 @@ def get_words(message):
             clean.append(word)
     return clean
 
-spam_words = sum([get_words(m) for m in spam["message"]], [])
-ham_words  = sum([get_words(m) for m in ham["message"]],  [])
+# Use itertools.chain for O(n) flattening instead of O(n²) sum()
+spam_words = list(itertools.chain.from_iterable(get_words(m) for m in spam["message"]))
+ham_words  = list(itertools.chain.from_iterable(get_words(m) for m in ham["message"]))
 spam_count = Counter(spam_words)
 ham_count  = Counter(ham_words)
 n = 15
@@ -187,7 +210,8 @@ bars = ax.bar(labels, rates, color=colors, width=0.5,
               alpha=0.85, edgecolor="white", linewidth=1.2, zorder=3)
 ax.axhline(avg, color="#2980B9", linestyle="--", lw=2.5, zorder=4,
            label=f"Dataset average: {avg:.1f}%")
-y_max = max(rates)
+# Guard: empty segment data would crash max()
+y_max = float(rates.max()) if len(rates) > 0 else 50.0
 for bar, rate, total in zip(bars, rates, totals):
     bx = bar.get_x()+bar.get_width()/2
     ax.text(bx, bar.get_height()+y_max*0.02, f"{rate:.1f}%",
